@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+{% block main %}
+
+<div class="columns is-centered">
+    <div class="column is-half is-full-mobile">
+
+        <div class="message is-danger">
+            <div class="message-body">
+
+                <div class="block">
+                    <p class="title is-3">
+                        {% translate 'Do you want to delete this time entry?' %}
+                    </p>
+                    <p>
+                        {% translate 'This action cannot be undone' %}
+                    </p>
+                </div>
+
+                <form action="." method="post">
+                    {% csrf_token %}
+
+                    <div class="buttons">
+                        <a href="{% url 'entries:entries_list_view' %}" class="button is-info">
+                            {% translate 'No, go back' %}
+                        </a>
+                        <button type="submit" class="button is-danger is-outlined">
+                            {% translate 'Yes, delete' %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock main %}

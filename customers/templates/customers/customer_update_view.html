@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block main %}
+
+<div class="columns is-centered">
+
+    <div class="column is-half is-full-mobile">
+        <div class="box">
+
+            <p class="title is-3">
+                {% translate 'Update the customer' %}
+            </p>
+
+            <form action="." method="post">
+                {% csrf_token %}
+
+                <div class="field">
+                    <label class="label">
+                        {% translate 'Customer name' %}
+                    </label>
+                    <div class="control">
+                        {{form.name|add_class:'input'|add_error_class:'is-danger'}}
+                    </div>
+                    {% for err in form.name.errors %}
+                        <p class="help is-danger">{{ err }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="button is-primary">
+                        {% translate 'Save' %}
+                    </button>
+                    <a href="{% url 'customers:customers_list_view'%}" class="button is-light">
+                        {% translate 'Go back' %}
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock main %}

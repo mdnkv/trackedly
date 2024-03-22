@@ -1,0 +1,112 @@
+{% extends 'index.html' %}
+
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block main %}
+
+<div class="columns is-centered">
+    <div class="column is-half is-full-mobile">
+
+        <div class="block">
+            <p class="title is-2">
+                {% translate 'Signup for free' %}
+            </p>
+            <p class="subtitle is-5">
+                {% translate 'All features. No credit card required' %}
+            </p>
+        </div>
+
+        <div class="block">
+            <div class="box">
+                <form action="." method="post">
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <label class="label">
+                            {% translate 'First name' %}
+                        </label>
+                        <div class="control">
+                            {{form.first_name|add_class:'input'|add_error_class:'is-danger'}}
+                        </div>
+                        {% for err in form.first_name.errors %}
+                            <p class="help is-danger">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            {% translate 'Last name' %}
+                        </label>
+                        <div class="control">
+                            {{form.last_name|add_class:'input'|add_error_class:'is-danger'}}
+                        </div>
+                        {% for err in form.last_name.errors %}
+                            <p class="help is-danger">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            {% translate 'Email address' %}
+                        </label>
+                        <div class="control">
+                            {{form.email|add_class:'input'|add_error_class:'is-danger'}}
+                        </div>
+                        {% for err in form.email.errors %}
+                            <p class="help is-danger">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            {% translate 'Password' %}
+                        </label>
+                        <div class="control">
+                            {{form.password1|add_class:'input'|add_error_class:'is-danger'}}
+                        </div>
+                        {% for err in form.password1.errors %}
+                            <p class="help is-danger">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            {% translate 'Please repeat your password' %}
+                        </label>
+                        <div class="control">
+                            {{form.password2|add_class:'input'|add_error_class:'is-danger'}}
+                        </div>
+                        {% for err in form.password2.errors %}
+                            <p class="help is-danger">{{ err }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="block">
+                        <p>
+                            {% translate 'By signing up you agree to our Terms of Service and Privacy Policy' %}
+                        </p>
+                    </div>
+
+                    <div class="buttons">
+                        <button type="submit" class="button is-primary is-fullwidth">
+                            {% translate 'Sign up' %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="block has-text-centered">
+            <p>
+                {% translate 'Do you have an account already?' %}
+            </p>
+            <a href="{% url 'users:login_view' %}">
+                {% translate 'Login' %}
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock main %}

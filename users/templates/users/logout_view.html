@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+{% block main %}
+
+<div class="block">
+    <div class="notification is-info">
+
+        <p class="is-size-5">
+            {% translate 'You have logged out successfully' %}
+        </p>
+
+        <a href="{% url 'users:login_view' %}">
+            {% translate 'Log in' %}
+        </a>
+
+    </div>
+</div>
+
+{% endblock main %}

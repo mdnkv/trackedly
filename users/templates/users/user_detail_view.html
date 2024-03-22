@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% load usertags %}
+{% load i18n %}
+
+{% block main %}
+    <div class="columns is-centered">
+        <div class="column is-8 is-full-mobile">
+            <div class="block">
+                <p class="title is-2">
+                    {% translate 'My profile' %}
+                </p>
+            </div>
+            <div class="block">
+                <div class="image is-128x128">
+                    <img class="is-rounded" src="{{ request.user|get_gravatar_url }}" alt="{{ request.user }}">
+                </div>
+            </div>
+            <div class="block">
+                <p class="title is-4">
+                    {% translate 'General information' %}
+                </p>
+
+                <p class="is-size-5">{{ request.user.first_name }} {{ request.user.last_name }}</p>
+
+                <a href="{% url 'users:user_update_view' %}" class="button is-light">
+                    <span class="icon">
+                        <i class="bx bxs-edit-alt"></i>
+                    </span>
+                    <span>{% translate 'Edit profile' %}</span>
+                </a>
+            </div>
+            <div class="block">
+                <p class="title is-5 has-text-danger">
+                    {% translate 'Danger zone' %}
+                </p>
+                <p> {% translate 'You can delete your account completely' %}
+                    <a href="{% url 'users:user_delete_view' %}"> {% translate 'here' %}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

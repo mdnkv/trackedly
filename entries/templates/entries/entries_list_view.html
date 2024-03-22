@@ -1,0 +1,124 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+{% load entriestags %}
+
+{% block main %}
+
+<!-- Header -->
+<div class="block">
+    <div class="level">
+
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title is-2">
+                    {% translate 'Time' %}
+                </p>
+            </div>
+        </div>
+
+        <div class="level-right">
+            <div class="level-item buttons">
+                <a href="{% url 'entries:entry_create_view' %}" class="button is-primary">
+                    <span class="icon">
+                        <i class="bx bx-plus"></i>
+                    </span>
+                    <span>
+                        {% translate 'New entry' %}
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if selected_project %}
+    <div class="block">
+        <span class="tag is-medium is-info is-rounded">
+            <span>{% translate 'Filter by project' %}: </span>
+            <span> {{ selected_project }}</span>
+            <a href="{% url 'entries:entries_list_view' %}" class="delete"></a>
+        </span>
+    </div>
+{% endif %}
+
+<!-- Table -->
+<div class="block">
+    <div class="table-container">
+        <table class="table is-fullwidth is-bordered is-hoverable">
+            
+            <thead>
+                <tr>
+                    <th>
+                        {% translate 'Date' %}
+                    </th>
+                    <th>
+                        {% translate 'Description' %}
+                    </th>
+                    <th>
+                        {% translate 'Total time' %}
+                    </th>
+                    <th>
+                        {% translate 'Project' %}
+                    </th>
+                    <th>
+                        {% translate 'Actions' %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                <tr>
+                    <td>{{entry.start_date}}</td>
+                    <td>{{entry.description}}</td>
+                    <td>{{ entry|get_entry_duration }}</td>
+                    <td>
+                        {% if entry.project %}
+                            <a href="{% url 'entries:entries_list_view' %}?project_id={{ entry.project.pk }}">
+                                <span class="icon">
+                                    <i class="bx bx-briefcase-alt"></i>
+                                </span>
+                                <span>{{ entry.project }}</span>
+                            </a>
+                        {% else %}
+                        <span class="has-text-warning">
+                            {% translate 'No project' %}
+                        </span>
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        <a href="{% url 'entries:entry_update_view' entry.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-edit-alt"></i>
+                            </span>
+                            <span>{% translate 'Update' %} </span>
+                        </a>  
+                        <a href="{% url 'entries:entry_delete_view' entry.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-trash-alt"></i>
+                            </span>
+                            <span>{% translate 'Delete' %}</span>
+                        </a>
+                    </td>
+
+                </tr>
+                {% empty %}
+                    <div class="notification is-warning">
+                        <p class="is-size-5">
+                            {% translate 'You do not have any time entries yet' %}
+                        </p>
+                        <a href="{% url 'entries:entry_create_view' %}">
+                            {% translate 'Create a time entry' %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Pagination -->
+
+{% endblock main %}

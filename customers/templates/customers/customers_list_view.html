@@ -1,0 +1,100 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+
+{% block main %}
+
+<!-- Header -->
+<div class="block">
+    <div class="level">
+
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title is-2">Customers</p>
+            </div>
+        </div>
+
+        <div class="level-right">
+            <div class="level-item buttons">
+                <a href="{% url 'customers:customer_create_view' %}" class="button is-primary">
+                    <span class="icon">
+                        <i class="bx bx-plus"></i>
+                    </span>
+                    <span>
+                        {% translate 'New customer' %}
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<!-- Table -->
+<div class="block">
+    <div class="table-container">
+        <table class="table is-fullwidth is-bordered is-hoverable">
+            <thead>
+                <tr>
+                    <th>
+                        {% translate 'Customer name' %}
+                    </th>
+                    <th>
+                        {% translate 'Projects' %}
+                    </th>
+                    <th>
+                        {% translate 'Actions' %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{customer.name}}</td>
+                    <td>
+                       <span class="tags">
+                            {% for project in customer.projects.all %}
+                                <a class="tag is-rounded is-light is-info" href="{% url 'entries:entries_list_view' %}?project_id={{ project.pk }}">
+                                    {{ project.name }}
+                                </a>
+                            {% empty %}
+                                <span class="has-text-warning"> 
+                                    {% translate 'No projects' %}
+                                </span>
+                            {% endfor %}
+                       </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'customers:customer_update_view' customer.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-edit-alt"></i>
+                            </span>
+                            <span>{% translate 'Update' %} </span>
+                        </a>  
+                        <a href="{% url 'customers:customer_delete_view' customer.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-trash-alt"></i>
+                            </span>
+                            <span>{% translate 'Delete' %}</span>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                    <div class="notification is-warning">
+                        <p class="is-size-5">
+                            {% translate 'You do not have any customers yet' %}
+                        </p>
+                        <a href="{% url 'customers:customer_create_view' %}">
+                            {% translate 'Create a customer' %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Pagination -->
+
+{% endblock main %}

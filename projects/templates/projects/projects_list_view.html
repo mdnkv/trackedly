@@ -1,0 +1,130 @@
+{% extends 'index.html' %}
+
+{% load projectstags %}
+{% load i18n %}
+{% block main %}
+
+
+<!-- Header -->
+<div class="block">
+    <div class="level">
+
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title is-2">
+                    {% translate 'Projects' %}
+                </p>
+            </div>
+        </div>
+
+        <div class="level-right">
+            <div class="level-item buttons">
+                <a href="{% url 'projects:project_create_view' %}" class="button is-primary">
+                    <span class="icon">
+                        <i class="bx bx-plus"></i>
+                    </span>
+                    <span>{% translate 'New project' %}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if selected_customer %}
+    <div class="block">
+        <span class="tag is-medium is-info is-rounded">
+            <span>
+                {% translate 'Filter by customer' %}: 
+            </span>
+            <span> {{ selected_customer }}</span>
+            <a href="{% url 'projects:projects_list_view' %}" class="delete"></a>
+        </span>
+    </div>
+{% endif %}
+
+<!-- Table -->
+<div class="block">
+    <div class="table-container">
+        <table class="table is-fullwidth is-bordered is-hoverable">
+            <thead>
+                <tr>
+                    <th>
+                        {% translate 'Project name' %}
+                    </th>
+                    <th>
+                        {% translate 'Time spent' %}
+                    </th>
+                    <th>
+                        {% translate 'Customer' %}
+                    </th>
+                    <th>
+                        {% translate 'Actions' %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for project in projects %}
+                <tr>
+                    <td>
+                        <span>{{project.name}}</span>
+                        {% if project.is_billable %}
+                        <span class="tag is-warning">
+                            <span class="icon">
+                                <i class="bx bx-dollar"></i>
+                            </span>
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td> {{ project|get_project_duration }} </td>
+
+                    <td>
+                        {% if project.customer %}
+                            <a href="{% url 'projects:projects_list_view' %}?customer_id={{ project.customer.pk }}">
+                                <span class="icon">
+                                    <i class="bx bx-user"></i>
+                                </span>
+                                <span>{{ project.customer.name }}</span>
+                            </a>
+                        {% else %}
+                        <span class="has-text-warning"> 
+                            {% translate 'No customer' %}
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'projects:project_update_view' project.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-edit-alt"></i>
+                            </span>
+                            <span>{% translate 'Update' %} </span>
+                        </a>  
+                        <a href="{% url 'projects:project_delete_view' project.pk %}">
+                            <span class="icon">
+                                <i class="bx bx-trash-alt"></i>
+                            </span>
+                            <span>{% translate 'Delete' %}</span>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                    <div class="notification is-warning">
+                        <p class="is-size-5">
+                            {% translate 'You do not have any projects yet' %}
+                        </p>
+                        <a href="{% url 'projects:project_create_view' %}">
+                            {% translate 'Create a project' %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Pagination -->
+
+{% endblock main %}

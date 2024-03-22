@@ -1,0 +1,85 @@
+{% extends 'index.html' %}
+
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block main %}
+<div class="columns">
+    <div class="column is-one-third is-full-mobile">
+        <div class="menu">
+            <ul class="menu-list">
+                <li>
+                    <a href="{% url 'users:user_update_view' %}">
+                        <span class="icon">
+                            <i class="bx bx-user-circle"></i>
+                        </span>
+                        <span>
+                            {% translate 'My profile' %}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users:password_update_view' %}">
+                        <span class="icon">
+                            <i class="bx bx-lock-alt"></i>
+                        </span>
+                        <span>
+                            {% translate 'Password' %}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="column">
+        <div class="block">
+            <p class="title is-2">
+                {% translate 'My profile' %}
+            </p>
+        </div>
+
+        <div class="block">
+            <form action="." method="post">
+                {% csrf_token %}
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">
+                                {% translate 'First name' %}
+                            </label>
+                            <div class="control">
+                                {{ form.first_name|add_class:'input'|add_error_class:'is-danger' }}
+                            </div>
+                            {% for err in form.first_name.errors %}
+                                <p class="help is-danger">{{ err }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">
+                                {% translate 'Last name' %}
+                            </label>
+                            <div class="control">
+                                {{ form.last_name|add_class:'input'|add_error_class:'is-danger' }}
+                            </div>
+                            {% for err in form.last_name.errors %}
+                                <p class="help is-danger">{{ err }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="button is-primary" type="submit">
+                        {% translate 'Save' %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
