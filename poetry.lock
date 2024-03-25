@@ -51,6 +51,20 @@ docs = ["furo (>=2021.8.17b43,<2021.9.dev0)", "sphinx (>=3.5.0)", "sphinx-notfou
 testing = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)"]
 
 [[package]]
+name = "django-queryset-csv"
+version = "1.1.0"
+description = "A simple python module for writing querysets to csv"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-queryset-csv-1.1.0.tar.gz", hash = "sha256:46b4fd55686d40c81d4ee725155bde73c9ffd201b7f87d9abfea3679cc7a4a86"},
+]
+
+[package.dependencies]
+django = ">=1.8"
+unicodecsv = ">=0.14.1"
+
+[[package]]
 name = "django-widget-tweaks"
 version = "1.5.0"
 description = "Tweak the form field rendering in templates, not in python-level form definitions."
@@ -240,6 +254,16 @@ files = [
 ]
 
 [[package]]
+name = "unicodecsv"
+version = "0.14.1"
+description = "Python2's stdlib csv module is nice, but it doesn't support unicode. This module is a drop-in replacement which *does*."
+optional = false
+python-versions = "*"
+files = [
+    {file = "unicodecsv-0.14.1.tar.gz", hash = "sha256:018c08037d48649a0412063ff4eda26eaa81eff1546dbffa51fa5293276ff7fc"},
+]
+
+[[package]]
 name = "whitenoise"
 version = "6.6.0"
 description = "Radically simplified static file serving for WSGI applications"
@@ -256,4 +280,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "793e252bc276ad030dd60162ffcbb5bba297a35df050256c584c40f62325b43e"
+content-hash = "dc3e44d70885ef3e2cf268110ad627195e89d9ca9388021bea38d3a553ed592c"
