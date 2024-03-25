@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
-{% load widget_tweaks %}
 {% load i18n %}
+{% load widget_tweaks %}
 
 {% block main %}
 
@@ -11,7 +11,7 @@
         <div class="box">
 
             <p class="title is-3">
-                {% translate 'Update the time entry' %}
+                {% translate 'Create a time entry' %}
             </p>
 
             <form action="." method="post">
@@ -22,8 +22,9 @@
                         {% translate 'Description' %}
                     </label>
                     <div class="control">
-                        {{form.description|add_class:'input'|add_error_class:'is-danger'}}
+                        {{form.description|add_class:'input'|add_error_class:'is-danger'|attr:'oninput:countDescription()'}}
                     </div>
+                    <p class="help" id="app-description-counter">0/255</p>
                     {% for err in form.description.errors %}
                         <p class="help is-danger">{{ err }}</p>
                     {% endfor %}
@@ -38,6 +39,9 @@
                             {{form.project}}
                         </div>
                     </div>
+                    <a href="{% url 'projects:project_create_view' %}">
+                        {% translate 'Create a new project' %}
+                    </a>
                 </div>
 
                 <div class="columns">
@@ -47,7 +51,7 @@
                                 {% translate 'Start date' %}
                             </label>
                             <div class="control">
-                                {{form.start_date|add_class:'input'|add_error_class:'is-danger'|attr:'type:date'}}
+                                {{form.start_date|add_class:'input'|add_error_class:'is-danger'|attr:"type:date"}}
                             </div>
                             {% for err in form.start_date.errors %}
                                 <p class="help is-danger">{{ err }}</p>
@@ -65,7 +69,7 @@
                                 {% translate 'Start time' %}
                             </label>
                             <div class="control">
-                                {{form.start_time|add_class:'input'|add_error_class:'is-danger'|attr:'type:time'}}
+                                {{form.start_time|add_class:'input'|add_error_class:'is-danger'|attr:"type:time"}}
                             </div>
                             {% for err in form.start_time.errors %}
                                 <p class="help is-danger">{{ err }}</p>
@@ -81,7 +85,7 @@
                                 {% translate 'Finish date' %}
                             </label>
                             <div class="control">
-                                {{form.finish_date|add_class:'input'|add_error_class:'is-danger'|attr:'type:date'}}
+                                {{form.finish_date|add_class:'input'|add_error_class:'is-danger'|attr:"type:date"}}
                             </div>
                             {% for err in form.finish_date.errors %}
                                 <p class="help is-danger">{{ err }}</p>
@@ -90,7 +94,7 @@
                                 <a onclick="setFinishDateToday()" class="tag is-light is-primary">
                                     {% translate 'Today' %}
                                 </a>
-                                <a onclick="setFinishDateAsStartDate()" class="tag is-light is-primary"> 
+                                <a onclick="setFinishDateAsStartDate()" class="tag is-light is-primary">
                                     {% translate 'As start date' %}
                                 </a>
                             </p>
@@ -102,7 +106,7 @@
                                 {% translate 'Finish time' %}
                             </label>
                             <div class="control">
-                                {{form.finish_time|add_class:'input'|add_error_class:'is-danger'|attr:'type:time'}}
+                                {{form.finish_time|add_class:'input'|add_error_class:'is-danger'|attr:"type:time"}}
                             </div>
                             {% for err in form.finish_time.errors %}
                                 <p class="help is-danger">{{ err }}</p>
@@ -113,7 +117,7 @@
 
                 <div class="buttons">
                     <button type="submit" class="button is-primary">
-                        {% translate 'Save' %}
+                        {% translate 'Create' %}
                     </button>
                     <a href="{% url 'entries:entries_list_view'%}" class="button is-light">
                         {% translate 'Back' %}
@@ -139,5 +143,17 @@
         let finishDateInput = document.getElementById('id_finish_date');
         finishDateInput.valueAsDate = startDateInput.valueAsDate;
     }
+
+    function countDescription(){
+        let descriptionCount = document.getElementById('id_description').value.length;
+        let counter = document.getElementById('app-description-counter');
+        counter.innerText = descriptionCount + '/255';
+        if (descriptionCount >= 200) {
+            document.getElementById('id_description').classList.add('is-warning');
+        } else {
+            document.getElementById('id_description').classList.remove('is-warning');
+        }
+    }
 </script>
+
 {% endblock main %}

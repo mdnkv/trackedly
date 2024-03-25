@@ -1,0 +1,54 @@
+{% load i18n %}
+{% load entriestags %}
+
+<div class="card">
+    <div class="card-content">
+        <div class="columns is-vcentered">
+            <div class="column is-2">
+                <p>{{ entry.start_date }}</p>
+            </div>
+            <div class="column">
+                <p class="is-size-5">
+                    <span>{{ entry.description }}</span>
+                    {% if entry.project %}
+                        <soan class="tags">
+                        <a href="{% url 'entries:entries_list_view' %}?project_id={{ entry.project.pk }}" class="tag is-info">
+                            <span class="icon">
+                                <i class="bx bx-briefcase-alt"></i>
+                            </span>
+                            <span>
+                                {{ entry.project }}
+                            </span>
+                        </a>
+                        {% if entry.project.is_billable %}
+                            <span class="tag is-primary">
+                                <span class="icon">
+                                    <i class="bx bx-dollar"></i>
+                                </span>
+                            </span>
+                        {% endif %}
+                        </soan>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="column is-2">
+                {{ entry.start_time }} - {{ entry.finish_time }}
+            </div>
+            <div class="column is-1">
+                {{ entry|get_entry_duration }}
+            </div>
+            <div class="column is-2 buttons">
+                <a href="{% url 'entries:entry_update_view' entry.pk %}" class="button is-light">
+                    <span class="icon">
+                        <i class="bx bx-edit-alt"></i>
+                    </span>
+                </a>
+                <a href="{% url 'entries:entry_delete_view' entry.pk %}" class="button is-danger">
+                    <span class="icon">
+                        <i class="bx bx-trash-alt"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

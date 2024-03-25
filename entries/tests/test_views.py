@@ -2,11 +2,14 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
+from datetime import time, date
+
 from entries.models import Entry
 from faker import Faker
 
 User = get_user_model()
 faker = Faker()
+
 
 class EntryViewTest(TestCase):
 
@@ -30,7 +33,7 @@ class EntryViewTest(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "entries/entry_update_view.html")
+        self.assertTemplateUsed(response, "entries/views/entry_update_view.html")
 
     def test_entry_update_view_update_only_owned_entry(self):
         """
@@ -58,6 +61,7 @@ class EntryViewTest(TestCase):
         Verify that EntryUpdateView updates a time entry object
         """
         user = User.objects.create_user(email=faker.email(), password="secret1234")
+
         entry = Entry.objects.create(
             description="some entry",
             owner=user,
@@ -68,17 +72,19 @@ class EntryViewTest(TestCase):
         )
         url = reverse("entries:entry_update_view", kwargs={"pk": entry.pk})
         self.client.force_login(user)
+        date = faker.date()
+        start_time = time(10, 30, 00)
+        finish_time = time(11, 30, 00)
         data = {
-            'start_date': faker.date(),
-            'finish_date': faker.date(),
-            'start_time': faker.time(),
-            'finish_time': faker.time(),
+            'start_date': date,
+            'finish_date': date,
+            'start_time': start_time,
+            'finish_time': finish_time,
             'description': 'Hello entry'
         }
         response = self.client.post(url, data)
         result = Entry.objects.get(pk=entry.pk)
         self.assertEqual(result.description, data['description'])
-
 
     def test_entry_delete_view_is_rendered(self):
         """
@@ -100,7 +106,7 @@ class EntryViewTest(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "entries/entry_delete_view.html")
+        self.assertTemplateUsed(response, "entries/views/entry_delete_view.html")
 
     def test_entry_delete_view_deletes_only_owned_entry(self):
         """
@@ -151,7 +157,7 @@ class EntryViewTest(TestCase):
         url = reverse("entries:entry_create_view")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "entries/entry_create_view.html")
+        self.assertTemplateUsed(response, "entries/views/entry_create_view.html")
 
     def test_entry_create_view_creates_entry(self):
         """
@@ -160,16 +166,43 @@ class EntryViewTest(TestCase):
         user = User.objects.create_user(email=faker.email(), password="secret1234")
         self.client.force_login(user)
         url = reverse("entries:entry_create_view")
+        date = faker.date()
+        start_time = time(10, 30, 00)
+        finish_time = time(11, 30, 00)
         data = {
-            'start_date': faker.date(),
-            'finish_date': faker.date(),
-            'start_time': faker.time(),
-            'finish_time': faker.time(),
+            'start_date': date,
+            'finish_date': date,
+            'start_time': start_time,
+            'finish_time': finish_time,
             'description': 'Hello entry'
         }
         self.client.post(url, data)
         result = Entry.objects.filter(owner=user).first()
         self.assertIsNotNone(result)
+
+    def test_entry_create_view_validates_input(self):
+        """
+        Verify that EntryCreateView validates that:
+        - finish date should be after start date or same day
+        - finish time should be after start time
+        """
+        user = User.objects.create_user(email=faker.email(), password="secret1234")
+        self.client.force_login(user)
+        url = reverse("entries:entry_create_view")
+        start_date = date(2024, 3, 25)
+        finish_date = date(2024, 3, 24)
+        start_time = time(10, 30, 00)
+        finish_time = time(11, 30, 00)
+        data = {
+            'start_date': start_date,
+            'finish_date': finish_date,
+            'start_time': start_time,
+            'finish_time': finish_time,
+            'description': 'Hello entry'
+        }
+        self.client.post(url, data)
+        result = Entry.objects.filter(owner=user).first()
+        self.assertIsNone(result)
 
     def test_entries_list_view_is_rendered(self):
         """
@@ -180,4 +213,4 @@ class EntryViewTest(TestCase):
         url = reverse("entries:entries_list_view")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "entries/entries_list_view.html")
+        self.assertTemplateUsed(response, "entries/views/entries_list_view.html")

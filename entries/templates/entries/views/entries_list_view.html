@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+{% load entriestags %}
+
+{% block main %}
+
+<!-- Header -->
+<div class="block">
+    <div class="level">
+
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title is-2">
+                    {% translate 'Time' %}
+                </p>
+            </div>
+        </div>
+
+        <div class="level-right">
+            <div class="level-item buttons">
+                <a href="{% url 'entries:entry_create_view' %}" class="button is-primary">
+                    <span class="icon">
+                        <i class="bx bx-plus"></i>
+                    </span>
+                    <span>
+                        {% translate 'New entry' %}
+                    </span>
+                </a>
+                <a href="{% url 'entries:entries_to_csv_view' %}" class="button">
+                    <span class="icon">
+                        <i class="bx bxs-download"></i>
+                    </span>
+                    <span>
+                        {% translate 'Export CSV' %}
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if selected_project %}
+    <div class="block">
+        <span class="tag is-medium is-info is-rounded">
+            <span>{% translate 'Filter by project' %}: </span>
+            <span> {{ selected_project }}</span>
+            <a href="{% url 'entries:entries_list_view' %}" class="delete"></a>
+        </span>
+    </div>
+{% endif %}
+
+{% for entry in page_obj %}
+    {% include 'entries/components/entry_card.html' %}
+{% empty %}
+    <div class="notification is-warning">
+        <p>{% translate 'You do not have any time entries yet' %}</p>
+        <a href="{% url 'entries:entry_create_view' %}">
+            {% translate 'Create an entry' %}
+        </a>
+    </div>
+{% endfor %}
+
+
+<!-- Pagination -->
+<div class="block">
+    <nav class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">
+            <span class="icon">
+                <i class="bx bx-left-arrow"></i>
+            </span>
+        </a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-next">
+            <span class="icon">
+                <i class="bx bx-right-arrow"></i>
+            </span>
+        </a>
+        {% endif %}
+    </nav>
+</div>
+
+{% endblock main %}
