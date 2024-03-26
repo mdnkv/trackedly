@@ -25,7 +25,7 @@ class ProjectViewTest(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "projects/project_update_view.html")
+        self.assertTemplateUsed(response, "projects/views/project_update_view.html")
 
     def test_project_update_view_update_only_owned_project(self):
         """
@@ -49,7 +49,7 @@ class ProjectViewTest(TestCase):
         project = Project.objects.create(name="project1", owner=user)
         url = reverse("projects:project_update_view", kwargs={"pk": project.pk})
         self.client.force_login(user)
-        data = {'name': 'new project name', 'is_billable': True, 'customer': ''}
+        data = {'name': 'new project name', 'is_billable': True, 'customer': '', 'weekly_goal': 0}
         response = self.client.post(url, data)
         result = Project.objects.get(pk=project.pk)
         self.assertEqual(result.name, data['name'])
@@ -68,7 +68,7 @@ class ProjectViewTest(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "projects/project_delete_view.html")
+        self.assertTemplateUsed(response, "projects/views/project_delete_view.html")
 
     def test_project_delete_view_delete_only_owned_project(self):
         """
@@ -105,7 +105,7 @@ class ProjectViewTest(TestCase):
         url = reverse("projects:project_create_view")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "projects/project_create_view.html")
+        self.assertTemplateUsed(response, "projects/views/project_create_view.html")
 
     def test_project_create_view_creates_project(self):
         """
@@ -117,7 +117,8 @@ class ProjectViewTest(TestCase):
         data = {
             'name': 'project',
             'is_billable': True,
-            'customer': ''
+            'customer': '',
+            'weekly_goal': 0
         }
         self.client.post(url, data)
         result = Project.objects.filter(owner=user).first()
@@ -134,4 +135,4 @@ class ProjectViewTest(TestCase):
         url = reverse("projects:projects_list_view")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "projects/projects_list_view.html")
+        self.assertTemplateUsed(response, "projects/views/projects_list_view.html")

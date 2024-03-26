@@ -79,6 +79,7 @@ class EntriesListView(LoginRequiredMixin, generic.ListView):
                 return Entry.objects.filter(project=project)
         return Entry.objects.filter(owner=self.request.user)
 
+
 @login_required()
 def entries_to_csv_view(request):
     entries = Entry.objects.filter(owner=request.user)
