@@ -27,7 +27,7 @@ The Trackedly application was written for internal usage (to keep track of my wo
 
 - Export data to files (CSV, Excel)
 - Add a frontend timer like in Timecamp to track time
-- Add weekly goals to projects
+- ~~Add weekly goals to projects~~ [Done]
 - Add rates to projects and generate invoices
 - Add project detail view with breakdown
 - Add customer detail view with breakdown

@@ -18,6 +18,7 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     is_billable = models.BooleanField(default=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='projects', null=True, blank=True)
+    weekly_goal = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name

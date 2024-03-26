@@ -37,6 +37,9 @@
                             {{form.customer}}
                         </div>
                     </div>
+                    <a href="{% url 'customers:customer_create_view' %}">
+                        {% translate 'Create a customer' %}
+                    </a>
                 </div>
 
                 <div class="field">
@@ -44,6 +47,18 @@
                         {{form.is_billable}}
                         {% translate 'This project is billable' %}
                     </label>
+                </div>
+
+                <div class="field">
+                    <label class="label">
+                        {% translate 'Weekly goal (hours)' %}
+                    </label>
+                    <div class="control">
+                        {{ form.weekly_goal|add_class:'input'|add_error_class:'is-danger' }}
+                    </div>
+                    {% for err in form.weekly_goal.errors %}
+                    <p class="help is-danger">{{ err }}</p>
+                    {% endfor %}
                 </div>
 
                 <div class="buttons">

@@ -1,15 +1,18 @@
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.http import request
 
 from projects.models import Project
 from projects.forms import ProjectForm
-
 from customers.models import Customer
+
+from djqscsv import render_to_csv_response
 
 
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
-    template_name = 'projects/project_create_view.html'
+    template_name = 'projects/views/project_create_view.html'
     success_url = reverse_lazy('projects:projects_list_view')
     form_class = ProjectForm
 
@@ -26,7 +29,7 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
-    template_name = 'projects/project_update_view.html'
+    template_name = 'projects/views/project_update_view.html'
     success_url = reverse_lazy('projects:projects_list_view')
     form_class = ProjectForm
     context_object_name = 'project'
@@ -43,7 +46,7 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy('projects:projects_list_view')
     context_object_name = 'project'
-    template_name = 'projects/project_delete_view.html'
+    template_name = 'projects/views/project_delete_view.html'
 
     def get_queryset(self):
         return Project.objects.filter(owner=self.request.user)
@@ -51,7 +54,8 @@ class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class ProjectsListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'projects'
-    template_name = 'projects/projects_list_view.html'
+    template_name = 'projects/views/projects_list_view.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super(ProjectsListView, self).get_context_data(**kwargs)
@@ -72,3 +76,9 @@ class ProjectsListView(LoginRequiredMixin, generic.ListView):
                 return Project.objects.filter(customer=customer)
         # default queryset
         return Project.objects.filter(owner=self.request.user)
+
+
+@login_required()
+def projects_to_csv_view(request):
+    projects = Project.objects.filter(owner=request.user)
+    return render_to_csv_response(projects)

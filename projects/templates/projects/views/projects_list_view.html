@@ -25,6 +25,14 @@
                     </span>
                     <span>{% translate 'New project' %}</span>
                 </a>
+                <a href="{% url 'projects:projects_to_csv_view' %}" class="button">
+                    <span class="icon">
+                        <i class="bx bxs-download"></i>
+                    </span>
+                    <span>
+                        {% translate 'Export CSV' %}
+                    </span>
+                </a>
             </div>
         </div>
     </div>
@@ -64,7 +72,7 @@
             </thead>
             <tbody>
                 
-                {% for project in projects %}
+                {% for project in page_obj %}
                 <tr>
                     <td>
                         <span>{{project.name}}</span>
@@ -126,5 +134,24 @@
 
 
 <!-- Pagination -->
+<!-- Pagination -->
+<div class="block">
+    <nav class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-previous">
+            <span class="icon">
+                <i class="bx bx-left-arrow"></i>
+            </span>
+        </a>
+        {% endif %}
 
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-next">
+            <span class="icon">
+                <i class="bx bx-right-arrow"></i>
+            </span>
+        </a>
+        {% endif %}
+    </nav>
+</div>
 {% endblock main %}
