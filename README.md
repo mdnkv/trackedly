@@ -25,7 +25,7 @@ The application has 3 core domains: time entries, projects and customers. Each t
 
 The Trackedly application was written for internal usage (to keep track of my working/study time). Although, there is always a room for improvement. In particular, following features are planned to be implemented:
 
-- Export data to files (CSV, Excel)
+- Export data to files (~~CSV~~, Excel)
 - Add a frontend timer like in Timecamp to track time
 - ~~Add weekly goals to projects~~ [Done]
 - Add rates to projects and generate invoices

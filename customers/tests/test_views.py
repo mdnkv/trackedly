@@ -23,7 +23,7 @@ class CustomerViewsTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "customers/customer_update_view.html")
+        self.assertTemplateUsed(response, "customers/views/customer_update_view.html")
 
     def test_customer_update_view_update_only_owned_customer(self):
         """
@@ -66,7 +66,7 @@ class CustomerViewsTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "customers/customer_delete_view.html")
+        self.assertTemplateUsed(response, "customers/views/customer_delete_view.html")
 
     def test_customer_delete_view_delete_only_owned_customer(self):
         """
@@ -103,7 +103,7 @@ class CustomerViewsTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "customers/customers_list_view.html")
+        self.assertTemplateUsed(response, "customers/views/customers_list_view.html")
 
     def test_customer_create_view_is_rendered(self):
         """
@@ -114,7 +114,7 @@ class CustomerViewsTests(TestCase):
         self.client.force_login(user)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "customers/customer_create_view.html")
+        self.assertTemplateUsed(response, "customers/views/customer_create_view.html")
 
     def test_customer_create_view_creates_customer(self):
         """
