@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "trackedly"
-version = "0.1"
+version = "0.2"
 description = "Time tracking application"
 authors = ["Iurii Mednikov"]
 license = "MIT"
@@ -11,7 +11,7 @@ python = "^3.11"
 django = "^5.0.3"
 django-environ = "^0.11.2"
 django-widget-tweaks = "^1.5.0"
-faker = "^24.2.0"
+faker = "^24.4.0"
 psycopg2-binary = "^2.9.9"
 gunicorn = "^21.2.0"
 whitenoise = "^6.6.0"
