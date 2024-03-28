@@ -25,8 +25,11 @@
                         <label class="label">
                             {% translate 'Email address' %}
                         </label>
-                        <div class="control">
+                        <div class="control has-icons-left">
                             {{form.username|add_class:'input'|add_error_class:'is-danger'}}
+                            <span class="icon is-left">
+                                <i class="bx bx-envelope"></i>
+                            </span>
                         </div>
                         {% for err in form.username.errors %}
                             <p class="help is-danger">{{ err }}</p>
@@ -37,8 +40,11 @@
                         <label class="label">
                             {% translate 'Password' %}
                         </label>
-                        <div class="control">
+                        <div class="control has-icons-left">
                             {{form.password|add_class:'input'|add_error_class:'is-danger'}}
+                            <span class="icon is-left">
+                                <i class="bx bx-lock-alt"></i>
+                            </span>
                         </div>
                         {% for err in form.password.errors %}
                             <p class="help is-danger">{{ err }}</p>
