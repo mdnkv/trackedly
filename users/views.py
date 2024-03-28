@@ -13,20 +13,20 @@ User = get_user_model()
 class SignupView(CreateView):
     form_class = SignupForm
     success_url = reverse_lazy('users:login_view')
-    template_name = 'users/signup_view.html'
+    template_name = 'users/views/signup_view.html'
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = UserUpdateForm
     success_url = reverse_lazy('users:user_detail_view')
-    template_name = 'users/user_update_view.html'
+    template_name = 'users/views/user_update_view.html'
 
     def get_object(self, queryset=None):
         return self.request.user
 
 
 class PasswordUpdateView(LoginRequiredMixin, FormView):
-    template_name = 'users/password_update_view.html'
+    template_name = 'users/views/password_update_view.html'
     success_url = reverse_lazy('users:user_detail_view')
     form_class = SetPasswordForm
 
@@ -42,7 +42,7 @@ class PasswordUpdateView(LoginRequiredMixin, FormView):
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
-    template_name = 'users/user_delete_view.html'
+    template_name = 'users/views/user_delete_view.html'
     context_object_name = 'user'
     success_url = reverse_lazy('users:login_view')
 
@@ -51,7 +51,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-    template_name = 'users/user_detail_view.html'
+    template_name = 'users/views/user_detail_view.html'
     context_object_name = 'user'
 
     def get_object(self, queryset=None):

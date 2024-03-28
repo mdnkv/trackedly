@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<div class="menu">
+    <ul class="menu-list">
+        <li>
+            <a href="{% url 'users:user_update_view' %}">
+                <span class="icon">
+                    <i class="bx bx-user-circle"></i>
+                </span>
+                <span>
+                    {% translate 'My profile' %}
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'users:password_update_view' %}">
+                <span class="icon">
+                    <i class="bx bx-lock-alt"></i>
+                </span>
+                <span>
+                    {% translate 'Password' %}
+                </span>
+            </a>
+        </li>
+    </ul>
+</div>

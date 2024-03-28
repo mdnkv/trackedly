@@ -19,7 +19,7 @@ class UserViewTest(TestCase):
         url = reverse('users:user_update_view')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/user_update_view.html')
+        self.assertTemplateUsed(response, 'users/views/user_update_view.html')
 
     def test_user_update_view_updates_user(self):
         """
@@ -48,7 +48,7 @@ class UserViewTest(TestCase):
         url = reverse('users:password_update_view')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/password_update_view.html')
+        self.assertTemplateUsed(response, 'users/views/password_update_view.html')
 
     def test_password_update_view_updates_password(self):
         """
@@ -72,7 +72,7 @@ class UserViewTest(TestCase):
         url = reverse('users:user_detail_view')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/user_detail_view.html')
+        self.assertTemplateUsed(response, 'users/views/user_detail_view.html')
 
     def test_user_delete_view_is_rendered(self):
         """
@@ -83,7 +83,7 @@ class UserViewTest(TestCase):
         url = reverse('users:user_delete_view')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'users/user_delete_view.html')
+        self.assertTemplateUsed(response, 'users/views/user_delete_view.html')
 
     def test_user_delete_view_deletes_user(self):
         """
