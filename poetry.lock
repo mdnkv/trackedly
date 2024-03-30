@@ -76,6 +76,20 @@ files = [
 ]
 
 [[package]]
+name = "djangorestframework"
+version = "3.15.1"
+description = "Web APIs for Django, made easy."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "djangorestframework-3.15.1-py3-none-any.whl", hash = "sha256:3ccc0475bce968608cf30d07fb17d8e52d1d7fc8bfe779c905463200750cbca6"},
+    {file = "djangorestframework-3.15.1.tar.gz", hash = "sha256:f88fad74183dfc7144b2756d0d2ac716ea5b4c7c9840995ac3bfd8ec034333c1"},
+]
+
+[package.dependencies]
+django = ">=3.0"
+
+[[package]]
 name = "faker"
 version = "24.4.0"
 description = "Faker is a Python package that generates fake data for you."
@@ -280,4 +294,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "52563822fd0350c68ac3239ad59e7827f70947abe260e2999c6db78aac4fa9d9"
+content-hash = "051a7386cb9f433b18a17b1b4ae2e27ae7c9ce1449e7b7fee00d767393c28c36"

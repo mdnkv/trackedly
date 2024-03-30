@@ -48,10 +48,9 @@ class CustomerViewsTests(TestCase):
         url = reverse("customers:customer_update_view", kwargs={'pk': customer.pk})
         self.client.force_login(user)
         data = {'name': 'new customer name'}
-        response = self.client.post(url,data)
+        response = self.client.post(url, data)
         result = Customer.objects.get(pk=customer.pk)
         self.assertEqual(result.name, data['name'])
-
 
     def test_customer_delete_view_is_rendered(self):
         """
