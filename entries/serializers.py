@@ -14,6 +14,17 @@ class EntryCreateSerializer(serializers.ModelSerializer):
                   'project', 'description', ]
         read_only_fields = ['id']
 
+    def validate(self, data):
+        start_date = data.get('start_date')
+        finish_date = data.get('finish_date')
+        if finish_date < start_date:
+            raise serializers.ValidationError('Finish date should be after start date or same day')
+        start_time = data.get('start_time')
+        finish_time = data.get('finish_time')
+        if finish_time < start_time:
+            raise serializers.ValidationError("Finish time should be after start time")
+        return data
+
     def create(self, validated_data):
         owner = self.context['request'].user
         return Entry.objects.create(owner=owner, **validated_data)
