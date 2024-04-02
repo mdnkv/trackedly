@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% for message in messages %}
+<div class="notification
+{% if message.tags %}is-{{ message.tags|lower }} {% endif %}" id="app-message">
+    <p>{{ message }}</p>
+</div>
+{% endfor %}

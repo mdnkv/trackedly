@@ -5,6 +5,10 @@
 
 {% block main %}
 
+{% if messages %}
+	{% include 'core/components/message.html' %}
+{% endif %}
+
 <!-- Header -->
 <div class="block">
     <div class="level">
