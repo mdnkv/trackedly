@@ -8,7 +8,6 @@ class CustomerCreateAPIView(generics.CreateAPIView):
     serializer_class = CustomerSerializer
 
 
-
 class CustomerUpdateAPIView(generics.UpdateAPIView):
     serializer_class = CustomerSerializer
 

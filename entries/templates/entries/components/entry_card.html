@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load entriestags %}
 
-<div class="card">
+<div class="card" id="app-entry-item-{{ entry.pk }}">
     <div class="card-content">
         <div class="columns is-vcentered">
             <div class="column is-2">
@@ -43,7 +43,7 @@
                         <i class="bx bx-edit-alt"></i>
                     </span>
                 </a>
-                <a href="{% url 'entries:entry_delete_view' entry.pk %}" class="button is-danger">
+                <a onclick="removeEntry('{{ entry.pk }}')" class="button is-danger">
                     <span class="icon">
                         <i class="bx bx-trash-alt"></i>
                     </span>
