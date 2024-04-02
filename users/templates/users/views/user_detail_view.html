@@ -4,6 +4,11 @@
 {% load i18n %}
 
 {% block main %}
+
+    {% if messages %}
+        {% include 'core/components/message.html' %}
+    {% endif %}
+
     <div class="columns is-centered">
         <div class="column is-8 is-full-mobile">
             <div class="block">

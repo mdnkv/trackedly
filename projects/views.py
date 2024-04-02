@@ -2,6 +2,8 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.contrib import messages
+from django.utils.translation import gettext as _
 from django.http import request
 
 from projects.models import Project
@@ -20,6 +22,8 @@ class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
         project = form.save(commit=False)
         project.owner = self.request.user
         project.save()
+        message = _('Project was created successfully!')
+        messages.success(self.request, message)
         return super().form_valid(form)
 
     def get_form_kwargs(self):
@@ -38,6 +42,11 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
         kwargs = super(ProjectUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def form_valid(self,form):
+        message = _('Project was updated successfully!')
+        messages.success(self.request, message)
+        return super().form_valid(form)
 
     def get_queryset(self):
         return Project.objects.filter(owner=self.request.user)
