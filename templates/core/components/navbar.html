@@ -1,0 +1,79 @@
+{% load i18n %}
+{% load usertags %}
+
+<nav class="navbar is-white has-shadow is-fixed-top">
+    <div class="navbar-brand">
+        <a role="button" class="navbar-burger" id="app-navbar-btn" onclick="toggleNavbarBtn()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu" id="app-navbar-menu">
+        {% if request.user.is_authenticated %}
+        <div class="navbar-start">
+            <a href="{% url 'entries:entries_list_view' %}" class="navbar-item">
+                {% translate 'Time entries' %}
+            </a>
+            <a href="{% url 'projects:projects_list_view'%}" class="navbar-item">
+                {% translate 'Projects' %}
+            </a>
+            <a href="{% url 'customers:customers_list_view'%}" class="navbar-item">
+                {% translate 'Customers' %}
+            </a>
+        </div>
+        <div class="navbar-end">
+
+            <div class="navbar-item is-hidden-mobile">
+                <div class="image is-24x24">
+                    <img class="is-rounded" src="{{ request.user|get_gravatar_url }}" alt="{{ request.user }}">
+                </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">{{ request.user }}</a>
+                <div class="navbar-dropdown">
+                    <a href="{% url 'users:user_detail_view' %}" class="navbar-item">
+                        {% translate 'My profile' %}
+                    </a>
+                    <a onclick="submitLogoutForm()" class="navbar-item">
+                        {% translate 'Logout' %}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="navbar-end">
+            <a href="{% url 'users:signup_view'%}" class="navbar-item">
+                {% translate 'Signup' %}
+            </a>
+            <a href="{% url 'users:login_view' %}" class="navbar-item">
+                {% translate 'Log in' %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
+<script>
+    function submitLogoutForm() {
+        const logoutMessage = gettext('Do you want to logout?');
+        swal({
+            text: logoutMessage,
+            icon: 'info',
+            buttons: true
+        }).then(isLogout => {
+            if (isLogout) {
+                const form = document.getElementById('app-logout-form');
+                form.submit();
+            }
+        });
+    }
+
+    function toggleNavbarBtn() {
+        const navbarBtn = document.getElementById('app-navbar-btn');
+        const navbarMenu = document.getElementById('app-navbar-menu');
+        navbarBtn.classList.toggle('is-active');
+        navbarMenu.classList.toggle('is-active');
+    }
+</script>
