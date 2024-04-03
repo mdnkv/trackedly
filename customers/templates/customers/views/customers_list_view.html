@@ -62,7 +62,11 @@
             <tbody>
                 {% for customer in page_obj %}
                 <tr id="app-customer-item-{{ customer.pk }}">
-                    <td>{{customer.name}}</td>
+                    <td>
+                        <a href="{% url 'customers:customer_detail_view' customer.pk %}">
+                            {{customer.name}}
+                        </a>
+                    </td>
                     <td>
                        <span class="tags">
                             {% for project in customer.projects.all %}

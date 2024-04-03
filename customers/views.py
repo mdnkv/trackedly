@@ -1,6 +1,3 @@
-from django.shortcuts import render
-from django.http import request
-
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -10,6 +7,7 @@ from django.utils.translation import gettext as _
 
 from customers.models import Customer
 from customers.forms import (CustomerForm, )
+from entries.models import Entry
 
 from djqscsv import render_to_csv_response
 
@@ -48,6 +46,20 @@ class CustomerDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = 'customers/views/customer_delete_view.html'
     queryset = Customer.objects.all()
     context_object_name = 'customer'
+
+    def get_queryset(self):
+        return Customer.objects.filter(owner=self.request.user)
+
+
+class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = 'customers/views/customer_detail_view.html'
+    context_object_name = 'customer'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        customer = self.get_object()
+        data['time_entries'] = Entry.objects.filter(project__customer=customer)
+        return data
 
     def get_queryset(self):
         return Customer.objects.filter(owner=self.request.user)

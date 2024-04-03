@@ -14,6 +14,7 @@ class Customer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     name = models.CharField(max_length=255)
+    email = models.EmailField(null=True, blank=True)
 
     def __str__(self):
         return self.name
