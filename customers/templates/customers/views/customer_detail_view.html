@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+
+{% load i18n %}
+
+{% block main %}
+<div class="columns">
+    <div class="column is-one-third is-full-mobile">
+        <div class="box">
+            <p class="title is-3">{{ customer.name }}</p>
+            
+            <p class="has-text-grey">
+                <span class="icon">
+                    <i class="bx bx-envelope"></i>
+                </span>
+                <span>
+                    {% if customer.email %}
+                        {{ customer.email }}
+                    {% else %}
+                        {% translate 'Email not set yet' %}
+                    {% endif %}
+                </span>
+            </p>
+            
+            <a href="{% url 'customers:customer_update_view' customer.pk %}">
+                <span class="icon">
+                    <i class="bx bxs-edit-alt"></i>
+                </span>
+                <span>{% translate 'Edit' %}</span>
+            </a>
+        </div>
+        
+        <div class="box">
+            <p class="title is-4">{% translate 'Projects' %}</p>
+            
+            <span class="tags">
+                {% for project in customer.projects.all %}
+                    <a class="tag is-rounded is-light is-info is-medium" 
+                        href="{% url 'entries:entries_list_view' %}?project_id={{ project.pk }}">
+                        {{ project.name }}
+                    </a>
+                {% empty %}
+                    <span class="has-text-warning"> 
+                        {% translate 'No projects' %}
+                    </span>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+
+    <div class="column">
+        <p class="title is-4">{% translate 'Time entries' %}</p>
+        
+        {% for entry in time_entries %}
+            {% include 'entries/components/entry_card.html' %}
+        {% empty %}
+            <div class="notification is-warning">
+                <p>{% translate 'You do not have any time entries yet' %}</p>
+                <a href="{% url 'entries:entry_create_view' %}">
+                    {% translate 'Create an entry' %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}

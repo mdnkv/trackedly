@@ -127,3 +127,29 @@ class CustomerViewsTests(TestCase):
         result = Customer.objects.filter(owner=user).first()
         self.assertIsNotNone(result)
         self.assertEqual(result.name, data['name'])
+
+    def test_customer_detail_view_views_only_owned_customer(self):
+        """
+        Verify that user can view only the owned Customer object.
+        If user tries to call the customer detail view for Customer that belongs to another user,
+        the 404 response is returned
+        """
+        user1 = User.objects.create_user(email=faker.email(), password='secret1234')
+        user2 = User.objects.create_user(email=faker.email(), password='secret1234')
+        customer = Customer.objects.create(name="Customer for user1", owner=user1)
+        url = reverse("customers:customer_detail_view", kwargs={"pk": customer.pk})
+        self.client.force_login(user2)
+        response = self.client.get(url)
+        self.assertEqual(404, response.status_code)
+
+    def test_customer_detail_view_is_rendered(self):
+        """
+        Verify that CustomerDetailView is rendered correctly
+        """
+        user = User.objects.create_user(email=faker.email(), password="secret1234")
+        customer = Customer.objects.create(name="Customer", owner=user)
+        url = reverse("customers:customer_detail_view", kwargs={'pk': customer.pk})
+        self.client.force_login(user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "customers/views/customer_detail_view.html")
