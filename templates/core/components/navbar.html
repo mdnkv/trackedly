@@ -54,26 +54,3 @@
         {% endif %}
     </div>
 </nav>
-
-<script>
-    function submitLogoutForm() {
-        const logoutMessage = gettext('Do you want to logout?');
-        swal({
-            text: logoutMessage,
-            icon: 'info',
-            buttons: true
-        }).then(isLogout => {
-            if (isLogout) {
-                const form = document.getElementById('app-logout-form');
-                form.submit();
-            }
-        });
-    }
-
-    function toggleNavbarBtn() {
-        const navbarBtn = document.getElementById('app-navbar-btn');
-        const navbarMenu = document.getElementById('app-navbar-menu');
-        navbarBtn.classList.toggle('is-active');
-        navbarMenu.classList.toggle('is-active');
-    }
-</script>
