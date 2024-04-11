@@ -6,127 +6,13 @@
 {% block main %}
 
 <div class="columns is-centered">
-
     <div class="column is-half is-full-mobile">
         <div class="box">
-
             <p class="title is-3">
                 {% translate 'Update the time entry' %}
             </p>
-
-            <form action="." method="post">
-                {% csrf_token %}
-
-                <div class="field">
-                    <label class="label">
-                        {% translate 'Description' %}
-                    </label>
-                    <div class="control">
-                        {{form.description|add_class:'input'|add_error_class:'is-danger'|attr:'oninput:countEntryDescription()'}}
-                    </div>
-                    <p class="help" id="app-description-counter">{{ entry.description|length }}/250</p>
-                    {% for err in form.description.errors %}
-                        <p class="help is-danger">{{ err }}</p>
-                    {% endfor %}
-                </div>
-
-                <div class="field">
-                    <label class="label">
-                        {% translate 'Project' %}
-                    </label>
-                    <div class="control">
-                        <div class="select is-fullwidth">
-                            {{form.project}}
-                        </div>
-                    </div>
-                    <a href="{% url 'projects:project_create_view' %}">
-                        {% translate 'Create a new project' %}
-                    </a>
-                </div>
-
-                <div class="columns">
-                    <div class="column">
-                        <div class="field">
-                            <label class="label">
-                                {% translate 'Start date' %}
-                            </label>
-                            <div class="control">
-                                {{form.start_date|add_class:'input'|add_error_class:'is-danger'|attr:'type:date'}}
-                            </div>
-                            {% for err in form.start_date.errors %}
-                                <p class="help is-danger">{{ err }}</p>
-                            {% endfor %}
-                            <p class="help tags">
-                                <a onclick="setStartDateToday()" class="tag is-light is-primary">
-                                    {% translate 'Today' %}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="field">
-                            <label class="label">
-                                {% translate 'Start time' %}
-                            </label>
-                            <div class="control">
-                                {{form.start_time|add_class:'input'|add_error_class:'is-danger'|attr:'type:time'}}
-                            </div>
-                            {% for err in form.start_time.errors %}
-                                <p class="help is-danger">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column">
-                        <div class="field">
-                            <label class="label">
-                                {% translate 'Finish date' %}
-                            </label>
-                            <div class="control">
-                                {{form.finish_date|add_class:'input'|add_error_class:'is-danger'|attr:'type:date'}}
-                            </div>
-                            {% for err in form.finish_date.errors %}
-                                <p class="help is-danger">{{ err }}</p>
-                            {% endfor %}
-                            <p class="help tags">
-                                <a onclick="setFinishDateToday()" class="tag is-light is-primary">
-                                    {% translate 'Today' %}
-                                </a>
-                                <a onclick="setFinishDateAsStartDate()" class="tag is-light is-primary"> 
-                                    {% translate 'As start date' %}
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="field">
-                            <label class="label">
-                                {% translate 'Finish time' %}
-                            </label>
-                            <div class="control">
-                                {{form.finish_time|add_class:'input'|add_error_class:'is-danger'|attr:'type:time'}}
-                            </div>
-                            {% for err in form.finish_time.errors %}
-                                <p class="help is-danger">{{ err }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="buttons">
-                    <button type="submit" class="button is-primary">
-                        {% translate 'Save' %}
-                    </button>
-                    <a href="{% url 'entries:entries_list_view'%}" class="button is-light">
-                        {% translate 'Back' %}
-                    </a>
-                </div>
-            </form>
-
+            {% include 'entries/components/entry_form.html' %}
         </div>
     </div>
-
 </div>
 {% endblock main %}
