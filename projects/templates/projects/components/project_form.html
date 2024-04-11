@@ -1,0 +1,61 @@
+{% load widget_tweaks %}
+{% load i18n %}
+
+<form action="." method="post">
+    {% csrf_token %}
+
+    <div class="field">
+        <label class="label">
+            {% translate 'Project name' %}
+        </label>
+        <div class="control">
+            {{form.name|add_class:'input'|add_error_class:'is-danger'}}
+        </div>
+        {% for err in form.name.errors %}
+            <p class="help is-danger">{{ err }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="field">
+        <label class="label">
+            {% translate 'Customer' %}
+        </label>
+        <div class="control">
+            <div class="select is-fullwidth">
+                {{form.customer}}
+            </div>
+        </div>
+        <a href="{% url 'customers:customer_create_view' %}">
+            {% translate 'Create a customer' %}
+        </a>
+    </div>
+
+    <div class="field">
+        <label class="checkbox">
+            {{form.is_billable}}
+            {% translate 'This project is billable' %}
+        </label>
+    </div>
+
+    <div class="field">
+        <label class="label">
+            {% translate 'Weekly goal (hours)' %}
+        </label>
+        <div class="control">
+            {{ form.weekly_goal|add_class:'input'|add_error_class:'is-danger' }}
+        </div>
+        {% for err in form.weekly_goal.errors %}
+        <p class="help is-danger">{{ err }}</p>
+        {% endfor %}
+    </div>
+
+
+    <div class="buttons">
+        <button type="submit" class="button is-primary">
+            {% translate 'Save' %}
+        </button>
+        <a href="{% url 'projects:projects_list_view'%}" class="button is-light">
+            {% translate 'Go back' %}
+        </a>
+    </div>
+</form>
