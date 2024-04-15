@@ -4,6 +4,7 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, Permi
 
 from uuid import uuid4
 
+
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password, **extra_fields):
@@ -23,13 +24,14 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-class User(AbstractBaseUser, PermissionsMixin):
 
+class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now = True)
+    updated_at = models.DateTimeField(auto_now=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
 

@@ -50,6 +50,12 @@
                             <p class="help is-danger">{{ err }}</p>
                         {% endfor %}
                     </div>
+                
+                    <div class="block">
+                        <a href="{% url 'password_reset' %}">
+                            {% translate 'Forgot my password' %}
+                        </a>
+                    </div>
 
                     <div class="buttons">
                         <button type="submit" class="button is-primary is-fullwidth">
