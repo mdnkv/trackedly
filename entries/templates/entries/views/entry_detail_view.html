@@ -1,0 +1,76 @@
+{% extends 'index.html' %}
+{% load i18n %}
+{% load entriestags %}
+
+{% block main %}
+    <div class="columns is-centered">
+        <div class="column is-8 is-full-mobile">
+
+            <div class="box">
+                <div class="block">
+                    <p class="is-size-4">{{ entry.description }}</p>
+                </div>
+
+                <div class="block">
+
+                    {% if entry.project %}
+                        <soan class="tags">
+                        <a href="{% url 'entries:entries_list_view' %}?project_id={{ entry.project.pk }}"
+                           class="tag is-info is-medium">
+                            <span class="icon">
+                                <i class="bx bx-briefcase-alt"></i>
+                            </span>
+                            <span>
+                                {{ entry.project }}
+                            </span>
+                        </a>
+                        {% if entry.project.is_billable %}
+                            <span class="tag is-primary is-medium">
+                                <span class="icon">
+                                    <i class="bx bx-dollar"></i>
+                                </span>
+                            </span>
+                        {% endif %}
+                        </soan>
+                    {% endif %}
+
+                </div>
+
+                <div class="block">
+                    <div class="columns is-mobile">
+                        <div class="column is-half">
+                            <p class="title is-4">{% translate 'Started' %}</p>
+
+                            <p class="is-size-5">{{ entry.start_time }}</p>
+                            <p>{{ entry.start_date }}</p>
+                        </div>
+
+                        <div class="column is-half">
+                            <p class="title is-4">{% translate 'Finished' %}</p>
+                            
+                            <p class="is-size-5">{{ entry.finish_time }}</p>
+                            <p>{{ entry.finish_date }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block buttons">
+                    <a class="button is-light" href="{% url 'entries:entry_update_view' entry.pk %}">
+                        <span class="icon">
+                            <i class="bx bx-edit-alt"></i>
+                        </span>
+                        <span>{% translate 'Edit' %}</span>
+                    </a>
+
+                    <a href="{% url 'entries:entry_delete_view' entry.pk %}" class="button is-danger is-outlined">
+                        <span class="icon">
+                            <i class="bx bx-trash-alt"></i>
+                        </span>
+                        <span>{% translate 'Delete' %}</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock main %}

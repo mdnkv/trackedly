@@ -30,11 +30,14 @@
                         </soan>
                     {% endif %}
                 </p>
+                <p>
+                    <a href="{% url 'entries:entry_detail_view' entry.pk %}">{% translate 'Show more' %}</a>
+                </p>
             </div>
-            <div class="column is-2">
+            <div class="column is-2 has-text-centered">
                 {{ entry.start_time }} - {{ entry.finish_time }}
             </div>
-            <div class="column is-1">
+            <div class="column is-2 has-text-centered">
                 {{ entry|get_entry_duration }}
             </div>
             <div class="column is-2 buttons">
@@ -43,7 +46,7 @@
                         <i class="bx bx-edit-alt"></i>
                     </span>
                 </a>
-                <a onclick="removeEntry('{{ entry.pk }}')" class="button is-danger">
+                <a onclick="removeEntry('{{ entry.pk }}')" class="button is-danger is-outlined">
                     <span class="icon">
                         <i class="bx bx-trash-alt"></i>
                     </span>

@@ -89,6 +89,14 @@ class EntriesListView(LoginRequiredMixin, generic.ListView):
         return Entry.objects.filter(owner=self.request.user)
 
 
+class EntryDetailView(LoginRequiredMixin, generic.DetailView):
+
+    template_name = 'entries/views/entry_detail_view.html'
+    context_object_name = 'entry'
+
+    def get_queryset(self):
+        return Entry.objects.filter(owner=self.request.user)
+
 @login_required()
 def entries_to_csv_view(request):
     entries = Entry.objects.filter(owner=request.user)
