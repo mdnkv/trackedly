@@ -9,6 +9,7 @@ urlpatterns = [
     path('update/<uuid:pk>/', views.ProjectUpdateView.as_view(), name='project_update_view'),
     path('delete/<uuid:pk>/', views.ProjectDeleteView.as_view(), name='project_delete_view'),
     path('list/', views.ProjectsListView.as_view(), name='projects_list_view'),
+    path('view/<uuid:pk>/', views.ProjectDetailView.as_view(), name='project_detail_view'),
     path('export/csv/', views.projects_to_csv_view, name='projects_to_csv_view'),
     path('api/create/', api.ProjectCreateAPIView.as_view(), name='project_create_api_view'),
     path('api/update/<uuid:pk>/', api.ProjectUpdateAPIView.as_view(), name='project_update_api_view'),

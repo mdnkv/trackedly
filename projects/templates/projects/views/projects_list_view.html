@@ -79,7 +79,9 @@
                 {% for project in page_obj %}
                 <tr id="app-project-item-{{ project.pk }}">
                     <td>
-                        <span>{{project.name}}</span>
+                        <span>
+                            <a href="{% url 'projects:project_detail_view' project.pk %}">{{ project.name }}</a>
+                        </span>
                         {% if project.is_billable %}
                         <span class="tag is-warning">
                             <span class="icon">
