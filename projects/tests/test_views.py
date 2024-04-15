@@ -136,3 +136,32 @@ class ProjectViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "projects/views/projects_list_view.html")
+
+    def test_project_detail_view_is_rendered(self):
+        """
+        Verify that ProjectDetailView is rendered successfully,
+        if
+        1. the user is authenticated and
+        2. the user accesses the Project that is owned by the user
+        """
+        user = User.objects.create_user(email=faker.email(), password="secret1234")
+        project = Project.objects.create(name="project1", owner=user)
+        url = reverse("projects:project_detail_view", kwargs={"pk": project.pk})
+        self.client.force_login(user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "projects/views/project_detail_view.html")
+
+    def test_project_detail_view_delete_only_owned_project(self):
+        """
+        Verify that user can view only the owned Project object.
+        If user tries to call the project detail view for Project that belongs to another user,
+        the 404 response is returned
+        """
+        user1 = User.objects.create_user(email=faker.email(), password='secret1234')
+        user2 = User.objects.create_user(email=faker.email(), password='secret1234')
+        project = Project.objects.create(name="project1", owner=user1)
+        self.client.force_login(user2)
+        url = reverse("projects:project_detail_view", kwargs={"pk": project.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)

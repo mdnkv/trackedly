@@ -43,7 +43,7 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def form_valid(self,form):
+    def form_valid(self, form):
         message = _('Project was updated successfully!')
         messages.success(self.request, message)
         return super().form_valid(form)
@@ -84,6 +84,14 @@ class ProjectsListView(LoginRequiredMixin, generic.ListView):
             if customer:
                 return Project.objects.filter(customer=customer)
         # default queryset
+        return Project.objects.filter(owner=self.request.user)
+
+
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+    context_object_name = 'project'
+    template_name = 'projects/views/project_detail_view.html'
+
+    def get_queryset(self):
         return Project.objects.filter(owner=self.request.user)
 
 
