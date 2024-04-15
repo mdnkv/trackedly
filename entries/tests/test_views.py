@@ -214,3 +214,46 @@ class EntryViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "entries/views/entries_list_view.html")
+
+    def test_entry_detail_view_is_rendered(self):
+        """
+        Verify that EntryDetailView is rendered successfully,
+        if
+        1. the user is authenticated and
+        2. the user accesses the Entry that is owned by the user
+        """
+        user = User.objects.create_user(email=faker.email(), password="secret1234")
+        entry = Entry.objects.create(
+            description="some entry",
+            owner=user,
+            start_date=faker.date(),
+            finish_date=faker.date(),
+            start_time=faker.time(),
+            finish_time=faker.time()
+        )
+        url = reverse("entries:entry_detail_view", kwargs={"pk": entry.pk})
+        self.client.force_login(user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "entries/views/entry_detail_view.html")
+
+    def test_entry_detail_view_shows_only_owned_entry(self):
+        """
+        Verify that user can view only the owned Entry object.
+        If user tries to call the entry detail view for Entry that belongs to another user,
+        the 404 response is returned
+        """
+        user1 = User.objects.create_user(email=faker.email(), password="secret1234")
+        user2 = User.objects.create_user(email=faker.email(), password="secret1234")
+        entry = Entry.objects.create(
+            description="Some entry",
+            owner=user1,
+            start_date=faker.date(),
+            finish_date=faker.date(),
+            start_time=faker.time(),
+            finish_time=faker.time()
+        )
+        self.client.force_login(user2)
+        url = reverse("entries:entry_detail_view", kwargs={"pk": entry.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
