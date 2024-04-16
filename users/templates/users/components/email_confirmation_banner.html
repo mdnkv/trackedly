@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="notification is-warning is-light">
+    <p>
+        {% translate 'Your email is not yet confirmed' %}
+    </p>
+
+    <p>
+        <a onclick="sendEmailConfirmation()">
+            {% translate 'Send me confirmation email' %}
+        </a>
+    </p>
+</div>

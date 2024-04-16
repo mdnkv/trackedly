@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 
 from users.serializers import (SignupSerializer, UserSerializer, PasswordUpdateSerializer)
+from users.models import EmailConfirmation
+from users.utils import send_confirmation_email
 
 
 class SignupAPIView(generics.CreateAPIView):
@@ -29,4 +31,13 @@ class LogoutAPIView(APIView):
 
     def post(self, request, format=None):
         request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class SendEmailConfirmationAPIView(APIView):
+
+    def post(self, request, format=None):
+        user = request.user
+        token = EmailConfirmation.objects.create(user=user)
+        send_confirmation_email(user=user, token=token)
         return Response(status=status.HTTP_200_OK)

@@ -17,7 +17,14 @@
 
     {% include 'core/components/navbar.html' %}
 
-    <main class="section container">{% block main %} {% endblock main %}</main>
+    <main class="section container">
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_email_confirmed == False %}
+                {% include 'users/components/email_confirmation_banner.html' %}
+            {% endif %}
+        {% endif %}
+        {% block main %} {% endblock main %}
+    </main>
 
     {% if request.user.is_authenticated %}
     <form action="{% url 'users:logout_view' %}" id="app-logout-form" method="post">{% csrf_token %}</form>

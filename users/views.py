@@ -1,6 +1,7 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from django.views.generic import (CreateView, UpdateView, DeleteView, FormView, DetailView)
+from django.views.generic import (CreateView, UpdateView, DeleteView, FormView, DetailView, TemplateView)
 from django.contrib.auth import (get_user_model, update_session_auth_hash)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import SetPasswordForm
@@ -8,6 +9,7 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 
 from users.forms import (SignupForm, UserUpdateForm)
+from users.models import EmailConfirmation
 
 User = get_user_model()
 
@@ -65,3 +67,20 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+def confirm_email_view(request):
+    token_id = request.GET.get('token_id', None)
+    if token_id is None:
+        data = {'is_confirmed': False}
+        return render(request, template_name='users/views/email_confirmed_view.html', context=data)
+    try:
+        token = EmailConfirmation.objects.get(pk=token_id)
+        user = token.user
+        user.is_email_confirmed = True
+        user.save()
+        token.delete()
+        data = {'is_confirmed': True}
+    except EmailConfirmation.DoesNotExist:
+        data = {'is_confirmed': False}
+    return render(request, template_name='users/views/email_confirmed_view.html', context=data)
