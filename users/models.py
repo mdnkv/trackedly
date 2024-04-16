@@ -1,5 +1,4 @@
 from django.db import models
-
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 
 from uuid import uuid4
@@ -34,9 +33,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    is_email_confirmed = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     objects = UserManager()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class EmailConfirmation(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='email_confirmations')
